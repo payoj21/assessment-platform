@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered JEE Exam Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+        }
+
+        /* Setup Screen */
+        .setup-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .setup-container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .setup-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .setup-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .setup-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .setup-subtitle {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .setup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input, .form-select {
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .difficulty-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .difficulty-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .difficulty-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .difficulty-btn.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .subject-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkbox-item:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-item.checked {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .generate-btn {
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtext {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Exam Screen Styles */
+        .exam-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .exam-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .exam-info {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .student-info {
+            font-size: 14px;
+        }
+
+        .timer {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer.warning {
+            background: #ff6b6b;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .exam-container {
+            display: none;
+            height: calc(100vh - 60px);
+        }
+
+        .exam-container.active {
+            display: flex;
+        }
+
+        .question-panel {
+            flex: 1;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .section-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 20px;
+        }
+
+        .section-tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .section-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background: white;
+        }
+
+        .question-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .question-number {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .question-marks {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 24px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: #e8eaf6;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .option-label {
+            flex: 1;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .question-navigation {
+            display: flex;
+            gap: 12px;
+            padding: 20px 24px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-button.mark-review {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+
+        .nav-button.clear {
+            background: white;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .nav-button.save-next {
+            background: #667eea;
+            color: white;
+            flex: 1;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .palette-panel {
+            width: 320px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .palette-header {
+            padding: 16px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .palette-legend {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .legend-box {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .legend-box.answered {
+            background: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .legend-box.not-answered {
+            background: #f44336;
+            border-color: #f44336;
+        }
+
+        .legend-box.marked {
+            background: #9c27b0;
+            border-color: #9c27b0;
+        }
+
+        .legend-box.not-visited {
+            background: #9e9e9e;
+            border-color: #9e9e9e;
+        }
+
+        .palette-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .palette-questions {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .palette-section {
+            margin-bottom: 20px;
+        }
+
+        .palette-section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .palette-question {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .palette-question:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .palette-question.current {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+        }
+
+        .palette-question.answered {
+            background: #4caf50;
+            color: white;
+        }
+
+        .palette-question.not-answered {
+            background: #f44336;
+            color: white;
+        }
+
+        .palette-question.marked {
+            background: #9c27b0;
+            color: white;
+        }
+
+        .palette-question.not-visited {
+            background: #9e9e9e;
+            color: white;
+        }
+
+        .palette-footer {
+            padding: 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 14px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-button:hover {
+            background: #d32f2f;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+        }
+
+        .modal-body {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .summary-item {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .summary-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-button.cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .modal-button.confirm {
+            background: #f44336;
+            color: white;
+        }
+
+        .modal-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Setup Screen -->
+    <div class="setup-screen" id="setupScreen">
+        <div class="setup-container">
+            <div class="setup-header">
+                <div class="setup-logo">JEE</div>
+                <div class="setup-title">AI-Powered JEE Practice</div>
+                <div class="setup-subtitle">Generate custom practice tests with AI</div>
+            </div>
+
+            <div class="setup-form">
+                <div class="form-group">
+                    <label class="form-label">Number of Questions per Subject</label>
+                    <select class="form-select" id="questionsPerSubject">
+                        <option value="5">5 Questions</option>
+                        <option value="10" selected>10 Questions</option>
+                        <option value="15">15 Questions</option>
+                        <option value="20">20 Questions</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Difficulty Level</label>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                        <button class="difficulty-btn selected" data-difficulty="medium">Medium</button>
+                        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Select Subjects</label>
+                    <div class="subject-checkboxes">
+                        <label class="checkbox-item checked">
+                            <input type="checkbox" checked data-subject="physics">
+                            <span>Physics</span>
+                        </label>
+                        <label class="checkbox-item checked">
+                            <input type="checkbox" checked data-subject="chemistry">
+                            <span>Chemistry</span>
+                        </label>
+                        <label class="checkbox-item checked">
+                            <input type="checkbox" checked data-subject="mathematics">
+                            <span>Mathematics</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Exam Duration (minutes)</label>
+                    <select class="form-select" id="examDuration">
+                        <option value="30">30 Minutes</option>
+                        <option value="60">60 Minutes</option>
+                        <option value="90">90 Minutes</option>
+                        <option value="120">120 Minutes</option>
+                        <option value="180" selected>180 Minutes (3 Hours)</option>
+                    </select>
+                </div>
+
+                <button class="generate-btn" id="generateBtn" onclick="generateExam()">
+                    Generate Practice Test
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Generating Your Practice Test...</div>
+            <div class="loading-subtext">AI is creating JEE-level questions</div>
+        </div>
+    </div>
+
+    <!-- Exam Header -->
+    <div class="exam-header hidden" id="examHeader">
+        <div class="exam-title">JEE Practice Test - AI Generated</div>
+        <div class="exam-info">
+            <div class="student-info">
+                <div>Practice Mode</div>
+            </div>
+            <div class="timer" id="timer">
+                <span>⏱</span>
+                <span id="timerDisplay">03:00:00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam Container -->
+    <div class="exam-container" id="examContainer">
+        <div class="question-panel">
+            <div class="section-tabs" id="sectionTabs">
+                <!-- Section tabs will be dynamically added -->
+            </div>
+
+            <div class="question-content">
+                <div class="question-header">
+                    <div class="question-number" id="questionNumber">Question 1</div>
+                    <div class="question-marks">+4 Marks</div>
+                </div>
+
+                <div class="question-text" id="questionText">
+                    <!-- Question will be loaded here -->
+                </div>
+
+                <div class="options" id="optionsContainer">
+                    <!-- Options will be loaded here -->
+                </div>
+            </div>
+
+            <div class="question-navigation">
+                <button class="nav-button mark-review" onclick="markForReview()">Mark for Review & Next</button>
+                <button class="nav-button clear" onclick="clearResponse()">Clear Response</button>
+                <button class="nav-button save-next" onclick="saveAndNext()">Save & Next</button>
+            </div>
+        </div>
+
+        <div class="palette-panel">
+            <div class="palette-header">
+                <div class="palette-legend">
+                    <div class="legend-item">
+                        <div class="legend-box answered"></div>
+                        <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box not-answered"></div>
+                        <span>Not Answered</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box marked"></div>
+                        <span>Marked</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box not-visited"></div>
+                        <span>Not Visited</span>
+                    </div>
+                </div>
+
+                <div class="palette-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="answeredCount">0</div>
+                        <div>Answered</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="notAnsweredCount">0</div>
+                        <div>Not Answered</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="markedCount">0</div>
+                        <div>Marked</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="notVisitedCount">30</div>
+                        <div>Not Visited</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="palette-questions" id="paletteQuestions">
+                <!-- Question palette will be loaded here -->
+            </div>
+
+            <div class="palette-footer">
+                <button class="submit-button" onclick="showSubmitModal()">Submit Exam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Modal -->
+    <div class="modal" id="submitModal">
+        <div class="modal-content">
+            <div class="modal-title">Confirm Submission</div>
+            <div class="modal-body">
+                <p>Are you sure you want to submit your exam? Once submitted, you cannot make any changes.</p>
+                
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <div class="summary-label">Answered</div>
+                        <div class="summary-value" style="color: #4caf50;" id="modalAnswered">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Not Answered</div>
+                        <div class="summary-value" style="color: #f44336;" id="modalNotAnswered">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Marked</div>
+                        <div class="summary-value" style="color: #9c27b0;" id="modalMarked">0</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Not Visited</div>
+                        <div class="summary-value" style="color: #9e9e9e;" id="modalNotVisited">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-button cancel" onclick="closeSubmitModal()">Go Back</button>
+                <button class="modal-button confirm" onclick="submitExam()">Submit Exam</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let examData = {};
+        let currentSection = null;
+        let currentQuestionIndex = 0;
+        let questionStates = {};
+        let timeRemaining = 180 * 60;
+        let timerInterval;
+        let selectedSubjects = ['physics', 'chemistry', 'mathematics'];
+        let selectedDifficulty = 'medium';
+
+        // Setup screen interactions
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedDifficulty = this.dataset.difficulty;
+            });
+        });
+
+        document.querySelectorAll('.checkbox-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+                this.classList.toggle('checked', checkbox.checked);
+                updateSelectedSubjects();
+            });
+        });
+
+        function updateSelectedSubjects() {
+            selectedSubjects = [];
+            document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
+                selectedSubjects.push(cb.dataset.subject);
+            });
+        }
+
+        // Generate exam using Claude API
+        async function generateExam() {
+            if (selectedSubjects.length === 0) {
+                alert('Please select at least one subject!');
+                return;
+            }
+
+            const numQuestions = parseInt(document.getElementById('questionsPerSubject').value);
+            const duration = parseInt(document.getElementById('examDuration').value);
+            
+            timeRemaining = duration * 60;
+
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('loadingOverlay').classList.add('active');
+
+            try {
+                examData = {};
+                
+                for (const subject of selectedSubjects) {
+                    const questions = await generateQuestionsForSubject(subject, numQuestions);
+                    examData[subject] = questions;
+                }
+
+                // Start the exam
+                startExam();
+            } catch (error) {
+                console.error('Error generating exam:', error);
+                alert('Failed to generate exam. Please try again.');
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('loadingOverlay').classList.remove('active');
+            }
+        }
+
+        async function generateQuestionsForSubject(subject, count) {
+            const subjectNames = {
+                physics: 'Physics',
+                chemistry: 'Chemistry',
+                mathematics: 'Mathematics'
+            };
+
+            const prompt = `Generate exactly ${count} JEE Main level ${selectedDifficulty} difficulty multiple choice questions for ${subjectNames[subject]}.
+
+For each question, provide:
+1. A clear, concise question statement
+2. Exactly 4 options (A, B, C, D)
+3. Mark which option is correct
+
+Format your response as a JSON array of objects with this exact structure:
+[
+  {
+    "question": "Question text here",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correct": 0
+  }
+]
+
+The "correct" field should be the index (0-3) of the correct option.
+
+Requirements:
+- Questions should be at JEE Main ${selectedDifficulty} difficulty level
+- Cover diverse topics in ${subjectNames[subject]}
+- Make options realistic and challenging
+- Avoid overly simple or trick questions
+- Use proper notation and units where applicable
+
+Return ONLY the JSON array, no additional text.`;
+
+            const response = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    model: "claude-sonnet-4-20250514",
+                    max_tokens: 4000,
+                    messages: [
+                        { role: "user", content: prompt }
+                    ],
+                })
+            });
+
+            const data = await response.json();
+            const content = data.content[0].text;
+            
+            // Parse JSON from response
+            let jsonStr = content.trim();
+            if (jsonStr.startsWith('```json')) {
+                jsonStr = jsonStr.substring(7);
+            }
+            if (jsonStr.endsWith('```')) {
+                jsonStr = jsonStr.substring(0, jsonStr.length - 3);
+            }
+            jsonStr = jsonStr.trim();
+
+            const questionsData = JSON.parse(jsonStr);
+            
+            // Transform to our format
+            return questionsData.map((q, index) => ({
+                id: `${subject}_${index + 1}`,
+                question: q.question,
+                options: q.options,
+                correctAnswer: q.correct,
+                marks: 4,
+                type: 'single'
+            }));
+        }
+
+        function startExam() {
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('loadingOverlay').classList.remove('active');
+            document.getElementById('examHeader').classList.remove('hidden');
+            document.getElementById('examContainer').classList.add('active');
+
+            // Set first section
+            currentSection = selectedSubjects[0];
+            currentQuestionIndex = 0;
+
+            initializeQuestionStates();
+            createSectionTabs();
+            loadQuestionPalette();
+            loadQuestion();
+            startTimer();
+        }
+
+        function createSectionTabs() {
+            const tabsContainer = document.getElementById('sectionTabs');
+            tabsContainer.innerHTML = '';
+
+            const subjectNames = {
+                physics: 'Physics',
+                chemistry: 'Chemistry',
+                mathematics: 'Mathematics'
+            };
+
+            selectedSubjects.forEach((subject, index) => {
+                const tab = document.createElement('button');
+                tab.className = `section-tab ${index === 0 ? 'active' : ''}`;
+                tab.textContent = subjectNames[subject];
+                tab.dataset.section = subject;
+                tab.onclick = () => changeSection(subject);
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        function changeSection(section) {
+            currentSection = section;
+            currentQuestionIndex = 0;
+
+            document.querySelectorAll('.section-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.section === section);
+            });
+
+            loadQuestionPalette();
+            loadQuestion();
+        }
+
+        function initializeQuestionStates() {
+            Object.keys(examData).forEach(section => {
+                examData[section].forEach((q, index) => {
+                    questionStates[q.id] = {
+                        status: 'not-visited',
+                        answer: null,
+                        section: section,
+                        index: index
+                    };
+                });
+            });
+
+            const totalQuestions = Object.values(examData).reduce((sum, questions) => sum + questions.length, 0);
+            document.getElementById('notVisitedCount').textContent = totalQuestions;
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 300) {
+                    document.getElementById('timer').classList.add('warning');
+                }
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    autoSubmitExam();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+            
+            document.getElementById('timerDisplay').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function loadQuestionPalette() {
+            const container = document.getElementById('paletteQuestions');
+            container.innerHTML = '';
+            
+            Object.keys(examData).forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'palette-section';
+                
+                const subjectNames = {
+                    physics: 'Physics',
+                    chemistry: 'Chemistry',
+                    mathematics: 'Mathematics'
+                };
+                
+                const title = document.createElement('div');
+                title.className = 'palette-section-title';
+                title.textContent = subjectNames[section];
+                sectionDiv.appendChild(title);
+                
+                const grid = document.createElement('div');
+                grid.className = 'palette-grid';
+                
+                examData[section].forEach((q, index) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'palette-question not-visited';
+                    btn.textContent = index + 1;
+                    btn.onclick = () => navigateToQuestion(section, index);
+                    btn.setAttribute('data-question-id', q.id);
+                    grid.appendChild(btn);
+                });
+                
+                sectionDiv.appendChild(grid);
+                container.appendChild(sectionDiv);
+            });
+        }
+
+        function loadQuestion() {
+            const questions = examData[currentSection];
+            const question = questions[currentQuestionIndex];
+            
+            if (questionStates[question.id].status === 'not-visited') {
+                questionStates[question.id].status = 'not-answered';
+            }
+            
+            document.getElementById('questionNumber').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'answer';
+                input.value = index;
+                input.id = `option${index}`;
+                
+                if (questionStates[question.id].answer !== null && 
+                    questionStates[question.id].answer === index) {
+                    input.checked = true;
+                    optionDiv.classList.add('selected');
+                }
+                
+                input.addEventListener('change', () => {
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    if (input.checked) {
+                        optionDiv.classList.add('selected');
+                    }
+                });
+                
+                const label = document.createElement('label');
+                label.className = 'option-label';
+                label.htmlFor = `option${index}`;
+                label.textContent = option;
+                
+                optionDiv.appendChild(input);
+                optionDiv.appendChild(label);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            updatePalette();
+            updateStats();
+        }
+
+        function updatePalette() {
+            document.querySelectorAll('.palette-question').forEach(btn => {
+                const questionId = btn.getAttribute('data-question-id');
+                const state = questionStates[questionId];
+                
+                btn.className = 'palette-question ' + state.status;
+                
+                const questions = examData[currentSection];
+                if (state.section === currentSection && state.index === currentQuestionIndex) {
+                    btn.classList.add('current');
+                }
+            });
+        }
+
+        function updateStats() {
+            let answered = 0, notAnswered = 0, marked = 0, notVisited = 0;
+            
+            Object.values(questionStates).forEach(state => {
+                if (state.status === 'answered') answered++;
+                else if (state.status === 'not-answered') notAnswered++;
+                else if (state.status === 'marked') marked++;
+                else if (state.status === 'not-visited') notVisited++;
+            });
+            
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('notAnsweredCount').textContent = notAnswered;
+            document.getElementById('markedCount').textContent = marked;
+            document.getElementById('notVisitedCount').textContent = notVisited;
+        }
+
+        function saveAndNext() {
+            const questions = examData[currentSection];
+            const question = questions[currentQuestionIndex];
+            const selected = document.querySelector('input[name="answer"]:checked');
+            
+            if (selected) {
+                questionStates[question.id].answer = parseInt(selected.value);
+                questionStates[question.id].status = 'answered';
+            }
+            
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                const currentSectionIndex = selectedSubjects.indexOf(currentSection);
+                if (currentSectionIndex < selectedSubjects.length - 1) {
+                    changeSection(selectedSubjects[currentSectionIndex + 1]);
+                }
+            }
+        }
+
+        function markForReview() {
+            const questions = examData[currentSection];
+            const question = questions[currentQuestionIndex];
+            const selected = document.querySelector('input[name="answer"]:checked');
+            
+            if (selected) {
+                questionStates[question.id].answer = parseInt(selected.value);
+            }
+            questionStates[question.id].status = 'marked';
+            
+            saveAndNext();
+        }
+
+        function clearResponse() {
+            const questions = examData[currentSection];
+            const question = questions[currentQuestionIndex];
+            
+            questionStates[question.id].answer = null;
+            if (questionStates[question.id].status === 'answered') {
+                questionStates[question.id].status = 'not-answered';
+            }
+            
+            document.querySelectorAll('input[name="answer"]').forEach(input => {
+                input.checked = false;
+            });
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            updatePalette();
+            updateStats();
+        }
+
+        function navigateToQuestion(section, index) {
+            currentSection = section;
+            currentQuestionIndex = index;
+            
+            document.querySelectorAll('.section-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.section === section);
+            });
+            
+            loadQuestion();
+        }
+
+        function showSubmitModal() {
+            updateStats();
+            document.getElementById('modalAnswered').textContent = document.getElementById('answeredCount').textContent;
+            document.getElementById('modalNotAnswered').textContent = document.getElementById('notAnsweredCount').textContent;
+            document.getElementById('modalMarked').textContent = document.getElementById('markedCount').textContent;
+            document.getElementById('modalNotVisited').textContent = document.getElementById('notVisitedCount').textContent;
+            
+            document.getElementById('submitModal').classList.add('active');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submitModal').classList.remove('active');
+        }
+
+        function submitExam() {
+            clearInterval(timerInterval);
+            
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            Object.keys(examData).forEach(section => {
+                examData[section].forEach(question => {
+                    const state = questionStates[question.id];
+                    if (state.answer !== null) {
+                        if (state.answer === question.correctAnswer) {
+                            correct++;
+                        } else {
+                            incorrect++;
+                        }
+                    } else {
+                        unanswered++;
+                    }
+                });
+            });
+
+            const totalScore = (correct * 4) - (incorrect * 1);
+            
+            alert(`Exam Submitted Successfully!\n\nCorrect: ${correct}\nIncorrect: ${incorrect}\nUnanswered: ${unanswered}\n\nTotal Score: ${totalScore} / ${(correct + incorrect + unanswered) * 4}`);
+            
+            window.location.reload();
+        }
+
+        function autoSubmitExam() {
+            alert('Time is up! Your exam has been automatically submitted.');
+            submitExam();
+        }
+    </script>
+</body>
+</html>
