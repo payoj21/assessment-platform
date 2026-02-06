@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Powered JEE Exam Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="AI-Powered JEE Practice Exam Platform - Generate custom JEE-level questions">
+    <title>JEE Exam Platform - Standalone Demo</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +16,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f5f5;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* Setup Screen */
@@ -65,6 +67,17 @@
         .setup-subtitle {
             font-size: 16px;
             color: #666;
+        }
+
+        .demo-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #856404;
+            text-align: center;
         }
 
         .setup-form {
@@ -278,11 +291,16 @@
 
         .exam-container {
             display: none;
-            height: calc(100vh - 60px);
         }
 
         .exam-container.active {
             display: flex;
+        }
+
+        @media screen and (min-width: 769px) {
+            .exam-container {
+                height: calc(100vh - 60px);
+            }
         }
 
         .question-panel {
@@ -704,6 +722,464 @@
         .hidden {
             display: none !important;
         }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .setup-screen {
+                padding: 10px;
+                overflow-y: auto;
+                min-height: 100vh;
+            }
+
+            .setup-container {
+                padding: 25px 20px;
+                max-width: 100%;
+            }
+
+            .setup-logo {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+
+            .setup-title {
+                font-size: 22px;
+            }
+
+            .setup-subtitle {
+                font-size: 14px;
+            }
+
+            .form-group {
+                gap: 6px;
+            }
+
+            .form-label {
+                font-size: 13px;
+            }
+
+            .form-input, .form-select {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+
+            .difficulty-options {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .difficulty-btn {
+                padding: 10px;
+                font-size: 13px;
+            }
+
+            .generate-btn {
+                font-size: 16px;
+                padding: 14px;
+            }
+
+            .exam-header {
+                flex-direction: column;
+                padding: 10px 15px;
+                gap: 10px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .exam-title {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .exam-info {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .student-info {
+                font-size: 12px;
+                text-align: center;
+            }
+
+            .timer {
+                padding: 6px 12px;
+                font-size: 16px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .exam-container {
+                flex-direction: column;
+                height: auto !important;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .section-tabs {
+                padding: 0 10px;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                position: sticky;
+                top: 0;
+                z-index: 99;
+                background: #f8f9fa;
+            }
+
+            .section-tab {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+            .question-panel {
+                height: auto !important;
+                min-height: auto;
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .question-content {
+                padding: 15px;
+                overflow-y: auto;
+                flex: 1;
+                height: auto !important;
+                max-height: none;
+            }
+
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .question-number {
+                font-size: 14px;
+            }
+
+            .question-marks {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+
+            .question-text {
+                font-size: 15px;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+
+            .options {
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .option {
+                padding: 12px 14px;
+                font-size: 14px;
+            }
+
+            .option input[type="radio"] {
+                width: 16px;
+                height: 16px;
+            }
+
+            .option-label {
+                font-size: 14px;
+            }
+
+            .question-navigation {
+                flex-wrap: wrap;
+                padding: 15px;
+                gap: 8px;
+                position: sticky;
+                bottom: 0;
+                background: #f8f9fa;
+                border-top: 1px solid #e0e0e0;
+                z-index: 98;
+            }
+
+            .nav-button {
+                font-size: 13px;
+                padding: 10px 15px;
+            }
+
+            .nav-button.mark-review,
+            .nav-button.clear {
+                flex: 1;
+                min-width: calc(50% - 4px);
+            }
+
+            .nav-button.save-next {
+                width: 100%;
+            }
+
+            .palette-panel {
+                width: 100%;
+                max-height: none !important;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .palette-header {
+                padding: 12px;
+            }
+
+            .palette-legend {
+                grid-template-columns: 1fr;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .legend-item {
+                font-size: 11px;
+            }
+
+            .legend-box {
+                width: 20px;
+                height: 20px;
+            }
+
+            .palette-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                font-size: 11px;
+            }
+
+            .stat-item {
+                padding: 6px;
+            }
+
+            .stat-value {
+                font-size: 16px;
+            }
+
+            .palette-questions {
+                padding: 12px;
+                overflow-y: auto;
+                max-height: 40vh;
+            }
+
+            .palette-section {
+                margin-bottom: 15px;
+            }
+
+            .palette-section-title {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+            .palette-grid {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 6px;
+            }
+
+            .palette-question {
+                font-size: 12px;
+            }
+
+            .palette-footer {
+                padding: 12px;
+                position: sticky;
+                bottom: 0;
+                background: white;
+                border-top: 2px solid #e0e0e0;
+            }
+
+            .submit-button {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .modal-content {
+                padding: 25px 20px;
+                margin: 15px;
+                max-width: calc(100% - 30px);
+            }
+
+            .modal-title {
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .modal-body {
+                font-size: 14px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .summary-item {
+                padding: 10px;
+            }
+
+            .summary-label {
+                font-size: 11px;
+            }
+
+            .summary-value {
+                font-size: 20px;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .modal-button {
+                width: 100%;
+            }
+
+            .loading-content {
+                padding: 0 20px;
+            }
+
+            .spinner {
+                width: 50px;
+                height: 50px;
+            }
+
+            .loading-text {
+                font-size: 16px;
+            }
+
+            .loading-subtext {
+                font-size: 13px;
+            }
+        }
+
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .palette-panel {
+                width: 260px;
+            }
+
+            .palette-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .exam-title {
+                font-size: 16px;
+            }
+
+            .question-content {
+                padding: 20px;
+            }
+
+            .section-tab {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .setup-container {
+                padding: 20px 15px;
+            }
+
+            .setup-title {
+                font-size: 20px;
+            }
+
+            .setup-subtitle {
+                font-size: 13px;
+            }
+
+            .palette-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 5px;
+            }
+
+            .palette-question {
+                font-size: 11px;
+            }
+
+            .question-text {
+                font-size: 14px;
+            }
+
+            .option-label {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .nav-button {
+                font-size: 12px;
+                padding: 9px 12px;
+            }
+        }
+
+        @media screen and (max-width: 896px) and (orientation: landscape) {
+            .exam-container {
+                flex-direction: row;
+            }
+
+            .question-panel {
+                min-height: auto;
+                border-right: 2px solid #e0e0e0;
+                border-bottom: none;
+            }
+
+            .palette-panel {
+                width: 280px;
+                max-height: none;
+            }
+
+            .palette-questions {
+                max-height: calc(100vh - 280px);
+            }
+
+            .exam-header {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .exam-info {
+                flex-direction: row;
+                width: auto;
+            }
+        }
+
+        @media (hover: none) and (pointer: coarse) {
+            .option {
+                padding: 16px 14px;
+                min-height: 52px;
+            }
+
+            .nav-button {
+                min-height: 44px;
+            }
+
+            .palette-question {
+                min-height: 44px;
+                font-size: 13px;
+            }
+
+            .difficulty-btn {
+                min-height: 44px;
+            }
+
+            .checkbox-item {
+                min-height: 48px;
+            }
+
+            .generate-btn {
+                min-height: 48px;
+            }
+
+            .submit-button {
+                min-height: 48px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -712,8 +1188,12 @@
         <div class="setup-container">
             <div class="setup-header">
                 <div class="setup-logo">JEE</div>
-                <div class="setup-title">AI-Powered JEE Practice</div>
-                <div class="setup-subtitle">Generate custom practice tests with AI</div>
+                <div class="setup-title">JEE Practice Platform</div>
+                <div class="setup-subtitle">Standalone Demo with Sample Questions</div>
+            </div>
+
+            <div class="demo-note">
+                📌 <strong>Demo Mode:</strong> This version uses pre-loaded sample questions. For AI-generated questions, deploy with backend server.
             </div>
 
             <div class="setup-form">
@@ -722,8 +1202,6 @@
                     <select class="form-select" id="questionsPerSubject">
                         <option value="5">5 Questions</option>
                         <option value="10" selected>10 Questions</option>
-                        <option value="15">15 Questions</option>
-                        <option value="20">20 Questions</option>
                     </select>
                 </div>
 
@@ -766,7 +1244,7 @@
                 </div>
 
                 <button class="generate-btn" id="generateBtn" onclick="generateExam()">
-                    Generate Practice Test
+                    Start Practice Test
                 </button>
             </div>
         </div>
@@ -777,13 +1255,13 @@
         <div class="loading-content">
             <div class="spinner"></div>
             <div class="loading-text">Generating Your Practice Test...</div>
-            <div class="loading-subtext">AI is creating JEE-level questions</div>
+            <div class="loading-subtext">Loading questions...</div>
         </div>
     </div>
 
     <!-- Exam Header -->
     <div class="exam-header hidden" id="examHeader">
-        <div class="exam-title">JEE Practice Test - AI Generated</div>
+        <div class="exam-title">JEE Practice Test - Demo</div>
         <div class="exam-info">
             <div class="student-info">
                 <div>Practice Mode</div>
@@ -798,9 +1276,7 @@
     <!-- Exam Container -->
     <div class="exam-container" id="examContainer">
         <div class="question-panel">
-            <div class="section-tabs" id="sectionTabs">
-                <!-- Section tabs will be dynamically added -->
-            </div>
+            <div class="section-tabs" id="sectionTabs"></div>
 
             <div class="question-content">
                 <div class="question-header">
@@ -808,13 +1284,8 @@
                     <div class="question-marks">+4 Marks</div>
                 </div>
 
-                <div class="question-text" id="questionText">
-                    <!-- Question will be loaded here -->
-                </div>
-
-                <div class="options" id="optionsContainer">
-                    <!-- Options will be loaded here -->
-                </div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
             </div>
 
             <div class="question-navigation">
@@ -865,9 +1336,7 @@
                 </div>
             </div>
 
-            <div class="palette-questions" id="paletteQuestions">
-                <!-- Question palette will be loaded here -->
-            </div>
+            <div class="palette-questions" id="paletteQuestions"></div>
 
             <div class="palette-footer">
                 <button class="submit-button" onclick="showSubmitModal()">Submit Exam</button>
@@ -909,6 +1378,406 @@
     </div>
 
     <script>
+        // Sample Question Bank for JEE Practice
+        const QUESTION_BANK = {
+            physics: [
+                {
+                    id: "physics_1",
+                    question: "A particle is moving in a circular path with constant speed. What is the nature of its acceleration?",
+                    options: [
+                        "Zero",
+                        "Constant in magnitude but changing in direction",
+                        "Constant in direction but changing in magnitude",
+                        "Changing in both magnitude and direction"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_2",
+                    question: "The dimensional formula for impulse is:",
+                    options: [
+                        "[MLT⁻¹]",
+                        "[MLT⁻²]",
+                        "[ML²T⁻¹]",
+                        "[ML²T⁻²]"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_3",
+                    question: "A body of mass 5 kg is acted upon by a net force of 20 N. What will be its acceleration?",
+                    options: [
+                        "2 m/s²",
+                        "4 m/s²",
+                        "6 m/s²",
+                        "10 m/s²"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_4",
+                    question: "The work done by a force is zero when the angle between force and displacement is:",
+                    options: [
+                        "0°",
+                        "45°",
+                        "60°",
+                        "90°"
+                    ],
+                    correctAnswer: 3,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_5",
+                    question: "The SI unit of power is:",
+                    options: [
+                        "Joule",
+                        "Watt",
+                        "Newton",
+                        "Pascal"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_6",
+                    question: "Kinetic energy of a body depends on:",
+                    options: [
+                        "Mass only",
+                        "Velocity only",
+                        "Both mass and velocity",
+                        "Neither mass nor velocity"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_7",
+                    question: "The escape velocity from Earth's surface is approximately:",
+                    options: [
+                        "7.9 km/s",
+                        "11.2 km/s",
+                        "15.0 km/s",
+                        "20.5 km/s"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_8",
+                    question: "In Simple Harmonic Motion, the acceleration is:",
+                    options: [
+                        "Constant",
+                        "Proportional to displacement",
+                        "Proportional to velocity",
+                        "Independent of displacement"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_9",
+                    question: "The angle of incidence equals the angle of reflection. This statement is:",
+                    options: [
+                        "Law of refraction",
+                        "Law of reflection",
+                        "Snell's law",
+                        "Brewster's law"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "physics_10",
+                    question: "The frequency of AC in India is:",
+                    options: [
+                        "40 Hz",
+                        "50 Hz",
+                        "60 Hz",
+                        "70 Hz"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                }
+            ],
+            chemistry: [
+                {
+                    id: "chemistry_1",
+                    question: "The atomic number of an element represents:",
+                    options: [
+                        "Number of protons",
+                        "Number of neutrons",
+                        "Number of electrons in outer shell",
+                        "Atomic mass"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_2",
+                    question: "The pH of pure water at 25°C is:",
+                    options: [
+                        "6",
+                        "7",
+                        "8",
+                        "14"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_3",
+                    question: "Which of the following is a noble gas?",
+                    options: [
+                        "Nitrogen",
+                        "Oxygen",
+                        "Argon",
+                        "Chlorine"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_4",
+                    question: "The molecular formula of glucose is:",
+                    options: [
+                        "C₆H₁₂O₆",
+                        "C₁₂H₂₂O₁₁",
+                        "C₆H₁₀O₅",
+                        "C₅H₁₀O₅"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_5",
+                    question: "Which element has the highest electronegativity?",
+                    options: [
+                        "Oxygen",
+                        "Fluorine",
+                        "Nitrogen",
+                        "Chlorine"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_6",
+                    question: "The process of converting a solid directly into gas is called:",
+                    options: [
+                        "Evaporation",
+                        "Sublimation",
+                        "Condensation",
+                        "Deposition"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_7",
+                    question: "Which acid is present in vinegar?",
+                    options: [
+                        "Citric acid",
+                        "Acetic acid",
+                        "Tartaric acid",
+                        "Oxalic acid"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_8",
+                    question: "The most abundant element in Earth's crust is:",
+                    options: [
+                        "Silicon",
+                        "Aluminum",
+                        "Oxygen",
+                        "Iron"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_9",
+                    question: "The symbol for the element Gold is:",
+                    options: [
+                        "Go",
+                        "Gd",
+                        "Au",
+                        "Ag"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "chemistry_10",
+                    question: "Which of the following is an alkali metal?",
+                    options: [
+                        "Magnesium",
+                        "Aluminum",
+                        "Sodium",
+                        "Iron"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                }
+            ],
+            mathematics: [
+                {
+                    id: "mathematics_1",
+                    question: "What is the approximate value of π (pi)?",
+                    options: [
+                        "3.14",
+                        "2.71",
+                        "1.41",
+                        "1.73"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_2",
+                    question: "The derivative of sin(x) with respect to x is:",
+                    options: [
+                        "cos(x)",
+                        "-cos(x)",
+                        "sin(x)",
+                        "-sin(x)"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_3",
+                    question: "The equation a² + b² = c² represents:",
+                    options: [
+                        "Pythagorean theorem",
+                        "Binomial theorem",
+                        "Quadratic equation",
+                        "Linear equation"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_4",
+                    question: "The integral of x with respect to x is:",
+                    options: [
+                        "x²/2 + C",
+                        "x² + C",
+                        "2x + C",
+                        "x/2 + C"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_5",
+                    question: "The sum of interior angles in a triangle is:",
+                    options: [
+                        "90°",
+                        "180°",
+                        "270°",
+                        "360°"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_6",
+                    question: "The value of log₁₀(100) is:",
+                    options: [
+                        "1",
+                        "2",
+                        "3",
+                        "10"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_7",
+                    question: "A prime number is divisible by:",
+                    options: [
+                        "1 only",
+                        "1 and itself only",
+                        "Any odd number",
+                        "Any number"
+                    ],
+                    correctAnswer: 1,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_8",
+                    question: "The area of a circle with radius r is:",
+                    options: [
+                        "πr",
+                        "2πr",
+                        "πr²",
+                        "2πr²"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_9",
+                    question: "The slope of a horizontal line is:",
+                    options: [
+                        "0",
+                        "1",
+                        "∞",
+                        "Undefined"
+                    ],
+                    correctAnswer: 0,
+                    marks: 4,
+                    type: "single"
+                },
+                {
+                    id: "mathematics_10",
+                    question: "If f(x) = 2x + 3, then f(5) equals:",
+                    options: [
+                        "10",
+                        "11",
+                        "13",
+                        "15"
+                    ],
+                    correctAnswer: 2,
+                    marks: 4,
+                    type: "single"
+                }
+            ]
+        };
+
         // Global variables
         let examData = {};
         let currentSection = null;
@@ -944,8 +1813,8 @@
             });
         }
 
-        // Generate exam using Claude API
-        async function generateExam() {
+        // Generate exam using sample questions
+        function generateExam() {
             if (selectedSubjects.length === 0) {
                 alert('Please select at least one subject!');
                 return;
@@ -959,96 +1828,15 @@
             document.getElementById('generateBtn').disabled = true;
             document.getElementById('loadingOverlay').classList.add('active');
 
-            try {
+            setTimeout(() => {
                 examData = {};
                 
-                for (const subject of selectedSubjects) {
-                    const questions = await generateQuestionsForSubject(subject, numQuestions);
-                    examData[subject] = questions;
-                }
+                selectedSubjects.forEach(subject => {
+                    examData[subject] = QUESTION_BANK[subject].slice(0, numQuestions);
+                });
 
-                // Start the exam
                 startExam();
-            } catch (error) {
-                console.error('Error generating exam:', error);
-                alert('Failed to generate exam. Please try again.');
-                document.getElementById('generateBtn').disabled = false;
-                document.getElementById('loadingOverlay').classList.remove('active');
-            }
-        }
-
-        async function generateQuestionsForSubject(subject, count) {
-            const subjectNames = {
-                physics: 'Physics',
-                chemistry: 'Chemistry',
-                mathematics: 'Mathematics'
-            };
-
-            const prompt = `Generate exactly ${count} JEE Main level ${selectedDifficulty} difficulty multiple choice questions for ${subjectNames[subject]}.
-
-For each question, provide:
-1. A clear, concise question statement
-2. Exactly 4 options (A, B, C, D)
-3. Mark which option is correct
-
-Format your response as a JSON array of objects with this exact structure:
-[
-  {
-    "question": "Question text here",
-    "options": ["Option A", "Option B", "Option C", "Option D"],
-    "correct": 0
-  }
-]
-
-The "correct" field should be the index (0-3) of the correct option.
-
-Requirements:
-- Questions should be at JEE Main ${selectedDifficulty} difficulty level
-- Cover diverse topics in ${subjectNames[subject]}
-- Make options realistic and challenging
-- Avoid overly simple or trick questions
-- Use proper notation and units where applicable
-
-Return ONLY the JSON array, no additional text.`;
-
-            const response = await fetch("https://api.anthropic.com/v1/messages", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    model: "claude-sonnet-4-20250514",
-                    max_tokens: 4000,
-                    messages: [
-                        { role: "user", content: prompt }
-                    ],
-                })
-            });
-
-            const data = await response.json();
-            const content = data.content[0].text;
-            
-            // Parse JSON from response
-            let jsonStr = content.trim();
-            if (jsonStr.startsWith('```json')) {
-                jsonStr = jsonStr.substring(7);
-            }
-            if (jsonStr.endsWith('```')) {
-                jsonStr = jsonStr.substring(0, jsonStr.length - 3);
-            }
-            jsonStr = jsonStr.trim();
-
-            const questionsData = JSON.parse(jsonStr);
-            
-            // Transform to our format
-            return questionsData.map((q, index) => ({
-                id: `${subject}_${index + 1}`,
-                question: q.question,
-                options: q.options,
-                correctAnswer: q.correct,
-                marks: 4,
-                type: 'single'
-            }));
+            }, 1500);
         }
 
         function startExam() {
@@ -1057,7 +1845,6 @@ Return ONLY the JSON array, no additional text.`;
             document.getElementById('examHeader').classList.remove('hidden');
             document.getElementById('examContainer').classList.add('active');
 
-            // Set first section
             currentSection = selectedSubjects[0];
             currentQuestionIndex = 0;
 
@@ -1363,8 +2150,9 @@ Return ONLY the JSON array, no additional text.`;
             });
 
             const totalScore = (correct * 4) - (incorrect * 1);
+            const totalPossible = (correct + incorrect + unanswered) * 4;
             
-            alert(`Exam Submitted Successfully!\n\nCorrect: ${correct}\nIncorrect: ${incorrect}\nUnanswered: ${unanswered}\n\nTotal Score: ${totalScore} / ${(correct + incorrect + unanswered) * 4}`);
+            alert(`Exam Submitted Successfully!\n\n✅ Correct: ${correct}\n❌ Incorrect: ${incorrect}\n⊘ Unanswered: ${unanswered}\n\n📊 Total Score: ${totalScore} / ${totalPossible}\n🎯 Percentage: ${((totalScore/totalPossible)*100).toFixed(1)}%`);
             
             window.location.reload();
         }
